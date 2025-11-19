@@ -1,0 +1,16 @@
+spring:
+  application:
+    name: aplicai
+  datasource:
+    driver-class-name: org.h2.Driver
+    username: sa
+    password: 1234
+    url: jdbc:h2:file:./data/aplicai
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+  h2:
+    console:
+      path: /h2-console
+      enabled: true
