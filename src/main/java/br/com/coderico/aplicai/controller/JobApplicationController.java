@@ -42,4 +42,13 @@ public class JobApplicationController {
         var response = new ApiListResponse<>(message, applications);
         return ResponseEntity.ok(response);
     }
+
+    @GetMapping("/{applicationId}")
+    public ResponseEntity<ApiResponse<JobApplicationResponse>> getJobApplication(@PathVariable Long applicationId) {
+        Long userId = 1L;
+        JobApplicationResponse application = service.getJobApplication(userId, applicationId);
+
+        var response = new ApiResponse<>("Candidatura solicitada", application);
+        return ResponseEntity.ok(response);
+    }
 }
