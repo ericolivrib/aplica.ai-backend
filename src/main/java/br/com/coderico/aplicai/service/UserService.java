@@ -8,17 +8,13 @@ import br.com.coderico.aplicai.exception.EntityAlreadyExistsException;
 import br.com.coderico.aplicai.exception.EntityNotFoundException;
 import br.com.coderico.aplicai.mapper.UserMapper;
 import br.com.coderico.aplicai.repository.UserRepository;
-import br.com.coderico.aplicai.security.UserAuthenticated;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @RequiredArgsConstructor
 @Service
-public class UserService implements UserDetailsService {
+public class UserService {
 
     private final UserRepository repository;
     private final UserMapper mapper;
@@ -42,13 +38,5 @@ public class UserService implements UserDetailsService {
 
         repository.save(user);
         return mapper.toUserCreatedResponse(user);
-    }
-
-    @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        User user = repository.findByEmail(username)
-                .orElseThrow(() -> new UsernameNotFoundException("Credenciais inválidas"));
-
-        return new UserAuthenticated(username, user.getPassword(), user.getRole());
     }
 }
