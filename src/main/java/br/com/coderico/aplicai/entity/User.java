@@ -26,6 +26,10 @@ public class User {
     @Column
     private String profession;
 
-    @OneToMany(mappedBy = "user",  fetch = FetchType.LAZY)
+    @Column
+    @Convert(converter = Role.Converter.class)
+    private Role role;
+
+    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
     private List<JobApplication> jobApplications;
 }
