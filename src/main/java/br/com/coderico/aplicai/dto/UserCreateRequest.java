@@ -1,0 +1,22 @@
+package br.com.coderico.aplicai.dto;
+
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
+
+public record UserCreateRequest(
+        @NotBlank(message = "Nome é obrigatório")
+        String name,
+
+        @NotBlank(message = "E-mail é obrigatório")
+        @Email(message = "E-mail inválido")
+        String email,
+
+        @NotBlank(message = "Senha é obrigatória")
+        @Size(min = 8, message = "Senha deve conter 8 ou mais caracteres")
+        String password,
+
+        @NotBlank(message = "Profissão é obrigatória")
+        String profession
+) {
+}
