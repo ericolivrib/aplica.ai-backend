@@ -5,6 +5,7 @@ import br.com.coderico.aplicai.dto.UserCreateRequest;
 import br.com.coderico.aplicai.dto.UserCreatedResponse;
 import br.com.coderico.aplicai.service.JobApplicationService;
 import br.com.coderico.aplicai.service.UserService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -21,7 +22,7 @@ public class UserController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public ResponseEntity<ApiResponse<UserCreatedResponse>> createUser(@RequestBody UserCreateRequest request) {
+    public ResponseEntity<ApiResponse<UserCreatedResponse>> createUser(@Valid @RequestBody UserCreateRequest request) {
         UserCreatedResponse user =  userService.createUser(request);
 
         var response = new ApiResponse<>("Usuário criado com sucesso!", user);
