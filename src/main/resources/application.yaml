@@ -1,3 +1,8 @@
+api:
+  security:
+    jwt:
+      secret: 4bdc96764b1084f87155f7c02a46d13ef969c5a4522f4630685bf90777bb30e0
+
 spring:
   application:
     name: aplicai
@@ -14,3 +19,6 @@ spring:
     console:
       path: /h2-console
       enabled: true
+  data:
+    mongodb:
+      uri: mongodb://sa:1234@localhost:27017/aplicai_resumes?authSource=admin
