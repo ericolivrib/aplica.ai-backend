@@ -2,6 +2,7 @@ package br.com.coderico.aplicai.service;
 
 import br.com.coderico.aplicai.dto.UserCreateRequest;
 import br.com.coderico.aplicai.dto.UserCreatedResponse;
+import br.com.coderico.aplicai.entity.Role;
 import br.com.coderico.aplicai.entity.User;
 import br.com.coderico.aplicai.exception.EntityAlreadyExistsException;
 import br.com.coderico.aplicai.exception.EntityNotFoundException;
@@ -32,6 +33,7 @@ public class UserService {
         }
 
         User user = mapper.fromUserCreateRequest(request);
+        user.setRole(Role.USER);
         user.setPassword(encoder.encode(request.password()));
 
         repository.save(user);

@@ -4,5 +4,5 @@ import jakarta.persistence.AttributeConverter;
 import jakarta.persistence.Converter;
 
 @Converter
-public interface CharEnumConverter<T extends Enum<T>> extends AttributeConverter<T, Character> {
+public interface StringEnumConverter<T extends Enum<T>> extends AttributeConverter<T, String> {
 }

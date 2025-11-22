@@ -1,6 +1,6 @@
 package br.com.coderico.aplicai.entity;
 
-import br.com.coderico.aplicai.converter.CharEnumConverter;
+import br.com.coderico.aplicai.converter.StringEnumConverter;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
@@ -12,33 +12,32 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public enum Role {
 
-    ADMIN('A'),
-    USER('U');
+    ADMIN("admin"),
+    USER("user");
 
-    private final char role;
+    private final String label;
 
-    private static final Map<Character, Role> roles;
+    private static final Map<String, Role> map = new HashMap<>();
 
     static {
-        roles = new HashMap<>();
-        roles.put('A', Role.ADMIN);
-        roles.put('U', Role.USER);
+        for (Role role : Role.values())
+            map.put(role.getLabel(), role);
     }
 
-    public static Role of(char role) {
-        return Optional.of(roles.get(role))
+    public static Role of(String role) {
+        return Optional.of(map.get(role))
                 .orElseThrow(IllegalArgumentException::new);
     }
 
-    public static class Converter implements CharEnumConverter<Role> {
+    public static class Converter implements StringEnumConverter<Role> {
 
         @Override
-        public Character convertToDatabaseColumn(Role role) {
-            return role.getRole();
+        public String convertToDatabaseColumn(Role role) {
+            return role.getLabel();
         }
 
         @Override
-        public Role convertToEntityAttribute(Character role) {
+        public Role convertToEntityAttribute(String role) {
             return Role.of(role);
         }
     }

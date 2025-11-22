@@ -1,5 +1,6 @@
 package br.com.coderico.aplicai;
 
+import br.com.coderico.aplicai.entity.Role;
 import br.com.coderico.aplicai.entity.User;
 import br.com.coderico.aplicai.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -28,6 +29,7 @@ public class DataLoader implements CommandLineRunner {
             user.setEmail("john.doe@test.com");
             user.setPassword("$2a$12$0xHdLUl2QLtXO3X4tNXYSO3BT7qD7LQhB3NYpZFCVq2Sh1K.32/4W");
             user.setProfession("Software Engineer");
+            user.setRole(Role.USER);
             userRepository.save(user);
         }
 

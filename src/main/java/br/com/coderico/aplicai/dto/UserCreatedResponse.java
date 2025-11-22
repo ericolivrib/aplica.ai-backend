@@ -4,6 +4,7 @@ public record UserCreatedResponse(
         Long id,
         String name,
         String email,
-        String profession
+        String profession,
+        String role
 ) {
 }
