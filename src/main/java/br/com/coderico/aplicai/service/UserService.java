@@ -32,9 +32,7 @@ public class UserService {
             throw new EntityAlreadyExistsException("O email informado já está vinculado a outro usuário");
         }
 
-        User user = mapper.fromUserCreateRequest(request);
-        user.setRole(Role.USER);
-        user.setPassword(encoder.encode(request.password()));
+        User user = mapper.fromUserCreateRequest(request, encoder);
 
         repository.save(user);
         return mapper.toUserCreatedResponse(user);
