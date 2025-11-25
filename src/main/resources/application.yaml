@@ -22,3 +22,10 @@ spring:
   data:
     mongodb:
       uri: mongodb://sa:1234@localhost:27017/aplicai_resumes?authSource=admin
+
+langchain4j:
+  ollama:
+    chat-model:
+      base-url: http://localhost:11434
+      model-name: gemma3
+      temperature: 0.2
