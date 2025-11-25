@@ -14,6 +14,7 @@ public interface UserMapper {
     @Mappings({
             @Mapping(target = "id", ignore = true),
             @Mapping(target = "role", ignore = true),
+            @Mapping(target = "jobApplications", ignore = true)
     })
     User fromUserCreateRequest(UserCreateRequest userCreateRequest);
 
