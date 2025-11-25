@@ -27,7 +27,7 @@ public class SecurityExceptionHandler {
     public ResponseEntity<ProblemDetail> handle(SignatureVerificationException ex, HttpServletRequest request) {
         ProblemDetail problemDetail = ProblemDetailFactory.createProblemDetail(ex, request);
 
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+        return ResponseEntity.status(HttpStatus.FORBIDDEN)
                 .body(problemDetail);
     }
 
