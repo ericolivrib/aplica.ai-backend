@@ -1,4 +1,4 @@
-package br.com.coderico.aplicai.handler;
+package br.com.coderico.aplicai.http.handler;
 
 import br.com.coderico.aplicai.exception.DomainException;
 import com.auth0.jwt.exceptions.JWTVerificationException;
