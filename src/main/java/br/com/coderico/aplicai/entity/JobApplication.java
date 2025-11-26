@@ -1,7 +1,10 @@
 package br.com.coderico.aplicai.entity;
 
+import br.com.coderico.aplicai.exception.InvalidAccessException;
 import jakarta.persistence.*;
 import lombok.Data;
+
+import java.util.Objects;
 
 @Data
 @Entity
@@ -30,4 +33,10 @@ public class JobApplication {
     @ManyToOne
     @JoinColumn(name = "user_id")
     private User user;
+
+    public void verifyOwner(Long userId) {
+        if (!Objects.equals(user.getId(), userId)) {
+            throw new InvalidAccessException("Acesso negado à esta candidatura");
+        }
+    }
 }

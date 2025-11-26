@@ -30,9 +30,7 @@ public class ResumeService {
         Resume resume = repository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Currículo não encontrado"));
 
-        if (!resume.getUserId().equals(userId)) {
-            throw new InvalidAccessException("Acesso não permitido a este currículo");
-        }
+        resume.verifyOwner(userId);
 
         return resume;
     }

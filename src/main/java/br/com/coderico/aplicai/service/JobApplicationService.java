@@ -49,10 +49,13 @@ public class JobApplicationService {
         JobApplication application = repository.findById(applicationId)
                 .orElseThrow(() -> new EntityNotFoundException("Candidatura não encontrada"));
 
-        if (!Objects.equals(application.getUser().getId(), userId)) {
-            throw new InvalidAccessException("Acesso negado à esta candidatura");
-        }
+        application.verifyOwner(userId);
 
         return mapper.toJobApplicationResponse(application);
+    }
+
+    public JobApplication getJobApplication(Long applicationId) {
+        return repository.findById(applicationId)
+                .orElseThrow(() -> new EntityNotFoundException("Candidatura não encontrada"));
     }
 }

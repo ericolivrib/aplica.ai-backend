@@ -1,5 +1,6 @@
 package br.com.coderico.aplicai.entity.resume;
 
+import br.com.coderico.aplicai.exception.InvalidAccessException;
 import lombok.Builder;
 import lombok.Data;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -38,4 +39,10 @@ public class Resume {
 
     @Field("educations")
     private List<Education> educations;
+
+    public void verifyOwner(Long userId) {
+        if (this.userId.equals(userId)) {
+            throw new InvalidAccessException("Acesso não autorizado a este currículo");
+        }
+    }
 }
