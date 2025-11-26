@@ -6,15 +6,12 @@ import br.com.coderico.aplicai.dto.JobApplicationResponse;
 import br.com.coderico.aplicai.entity.JobApplication;
 import br.com.coderico.aplicai.entity.User;
 import br.com.coderico.aplicai.exception.EntityNotFoundException;
-import br.com.coderico.aplicai.exception.InvalidAccessException;
 import br.com.coderico.aplicai.mapper.JobApplicationMapper;
 import br.com.coderico.aplicai.repository.JobApplicationRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
-import java.util.Objects;
 import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
@@ -45,17 +42,16 @@ public class JobApplicationService {
                 .collect(Collectors.toList());
     }
 
-    public JobApplicationResponse getJobApplication(Long userId, Long applicationId) {
-        JobApplication application = repository.findById(applicationId)
+    public JobApplication getJobApplication(Long applicationId) {
+        return repository.findById(applicationId)
                 .orElseThrow(() -> new EntityNotFoundException("Candidatura não encontrada"));
+    }
+
+    public JobApplicationResponse getJobApplication(Long userId, Long applicationId) {
+        JobApplication application = getJobApplication(applicationId);
 
         application.verifyOwner(userId);
 
         return mapper.toJobApplicationResponse(application);
-    }
-
-    public JobApplication getJobApplication(Long applicationId) {
-        return repository.findById(applicationId)
-                .orElseThrow(() -> new EntityNotFoundException("Candidatura não encontrada"));
     }
 }
