@@ -54,4 +54,16 @@ public class JobApplicationService {
 
         return mapper.toJobApplicationResponse(application);
     }
+
+    public JobApplicationResponse updateJobApplication(Long applicationId, Long userId, JobApplicationCreateRequest application) {
+        JobApplication applicationToUpdate = getJobApplication(applicationId);
+        applicationToUpdate.verifyOwner(userId);
+
+        applicationToUpdate.setUrl(application.url());
+        applicationToUpdate.setCompany(application.company());
+        applicationToUpdate.setPosition(application.position());
+        repository.save(applicationToUpdate);
+
+        return mapper.toJobApplicationResponse(applicationToUpdate);
+    }
 }

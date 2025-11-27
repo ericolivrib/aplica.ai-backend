@@ -51,4 +51,13 @@ public class JobApplicationController {
         var response = new ApiResponse<>("Candidatura solicitada", application);
         return ResponseEntity.ok(response);
     }
+
+    @PutMapping("/{applicationId}")
+    public ResponseEntity<ApiResponse<JobApplicationResponse>> updateJobApplication(@PathVariable Long applicationId,
+                                                                                    @Valid @RequestBody JobApplicationCreateRequest request,
+                                                                                    @AuthenticationPrincipal UserAuthenticated currentUser) {
+        JobApplicationResponse application = service.updateJobApplication(currentUser.getId(), applicationId, request);
+        var response = new ApiResponse<>("Candidatura atualizada com sucesso", application);
+        return ResponseEntity.ok(response);
+    }
 }
