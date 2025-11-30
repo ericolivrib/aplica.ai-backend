@@ -10,4 +10,6 @@ import java.util.List;
 public interface StageRepository extends JpaRepository<Stage, Long> {
 
     List<Stage> findByApplicationId(Long applicationId);
+
+    boolean existsByTitleAndApplicationId(String title, Long applicationId);
 }

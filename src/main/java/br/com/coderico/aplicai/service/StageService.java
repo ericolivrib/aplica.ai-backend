@@ -4,6 +4,7 @@ import br.com.coderico.aplicai.dto.StageCreateRequest;
 import br.com.coderico.aplicai.dto.StageResponse;
 import br.com.coderico.aplicai.entity.JobApplication;
 import br.com.coderico.aplicai.entity.Stage;
+import br.com.coderico.aplicai.exception.EntityAlreadyExistsException;
 import br.com.coderico.aplicai.mapper.StageMapper;
 import br.com.coderico.aplicai.repository.StageRepository;
 import br.com.coderico.aplicai.security.UserAuthenticated;
@@ -11,6 +12,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @RequiredArgsConstructor
 @Service
@@ -33,6 +35,12 @@ public class StageService {
     public StageResponse createStage(Long applicationId, Long userid, StageCreateRequest stageCreateRequest) {
         JobApplication application = applicationService.getJobApplication(applicationId);
         application.verifyOwner(userid);
+
+        boolean existsByName = repository.existsByTitleAndApplicationId(stageCreateRequest.title(),  applicationId);
+
+        if (existsByName) {
+            throw new EntityAlreadyExistsException("Já existe uma etapa com o mesmo titulo para esta candidatura");
+        }
 
         Stage stage = mapper.fromStageCreateRequest(stageCreateRequest, application);
         repository.save(stage);
