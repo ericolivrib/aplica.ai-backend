@@ -1,5 +1,6 @@
 package br.com.coderico.aplicai.service;
 
+import br.com.coderico.aplicai.dto.StageCreateRequest;
 import br.com.coderico.aplicai.dto.StageResponse;
 import br.com.coderico.aplicai.entity.JobApplication;
 import br.com.coderico.aplicai.entity.Stage;
@@ -27,5 +28,14 @@ public class StageService {
         return stages.stream()
                 .map(mapper::toStageResponse)
                 .toList();
+    }
+
+    public StageResponse createStage(Long applicationId, Long userid, StageCreateRequest stageCreateRequest) {
+        JobApplication application = applicationService.getJobApplication(applicationId);
+        application.verifyOwner(userid);
+
+        Stage stage = mapper.fromStageCreateRequest(stageCreateRequest, application);
+        repository.save(stage);
+        return mapper.toStageResponse(stage);
     }
 }
