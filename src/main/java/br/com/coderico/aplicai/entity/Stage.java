@@ -12,6 +12,9 @@ public class Stage {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(name = "application_id", insertable = false, updatable = false)
+    private Long applicationId;
+
     @Column
     private String title;
 
