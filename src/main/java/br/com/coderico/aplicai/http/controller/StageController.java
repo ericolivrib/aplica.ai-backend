@@ -11,6 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
+import java.net.URI;
 import java.util.List;
 
 @RequiredArgsConstructor
@@ -32,7 +33,11 @@ public class StageController {
                                                                   @AuthenticationPrincipal UserAuthenticated currentUser,
                                                                   @RequestBody StageCreateRequest request) {
         StageResponse createdStage = stageService.createStage(applicationId, currentUser.getId(), request);
+
         var response = new ApiResponse<>("Etapa adicionada com sucesso", createdStage);
-        return ResponseEntity.ok(response);
+        URI location = URI.create(String.format("/api/v1/applications/%d/stages/%d", applicationId, createdStage.id()));
+
+        return ResponseEntity.created(location)
+                .body(response);
     }
 }
