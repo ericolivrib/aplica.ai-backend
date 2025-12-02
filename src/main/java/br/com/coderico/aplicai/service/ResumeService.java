@@ -1,9 +1,9 @@
 package br.com.coderico.aplicai.service;
 
 import br.com.coderico.aplicai.dto.ResumeCreateRequest;
+import br.com.coderico.aplicai.dto.ResumeFileResponse;
 import br.com.coderico.aplicai.entity.resume.Resume;
 import br.com.coderico.aplicai.exception.EntityNotFoundException;
-import br.com.coderico.aplicai.exception.InvalidAccessException;
 import br.com.coderico.aplicai.mapper.ResumeMapper;
 import br.com.coderico.aplicai.repository.ResumeRepository;
 import lombok.RequiredArgsConstructor;
@@ -17,6 +17,7 @@ public class ResumeService {
 
     private final ResumeRepository repository;
     private final ResumeMapper mapper;
+    private final FileGenerationService fileGenerationService;
 
     public Resume createResume(ResumeCreateRequest resumeCreateRequest, Long userId) {
         Resume resume = mapper.toResumeEntity(resumeCreateRequest);
@@ -37,5 +38,14 @@ public class ResumeService {
 
     public List<Resume> getUserResumes(Long userId) {
         return repository.findByUserId(userId);
+    }
+
+    public ResumeFileResponse getResumeFile(String resumeId, Long userId) {
+        Resume resume = getResume(resumeId, userId);
+
+        byte[] resumeFile = fileGenerationService.generatePdf(resume);
+        String filename = resume.getName() + " - " + resume.getTitle() + ".pdf";
+
+        return new ResumeFileResponse(resumeFile, filename);
     }
 }

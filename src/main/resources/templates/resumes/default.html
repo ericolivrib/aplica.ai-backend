@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="pt" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+    <head>
+
+        <title th:title="${resume.name + ' - ' + resume.title}"></title>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0" />
+        <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+
+        <style>
+            body {
+                font-family: Arial, sans-serif;
+            }
+
+            header {
+                text-align: center;
+            }
+
+            header h1 {
+                font-size: 15pt;
+                text-transform: uppercase;
+            }
+
+            header h2 {
+                font-size: 15pt;
+            }
+
+            header li {
+                font-size: 9pt;
+            }
+
+            main p,
+            main strong,
+            main span,
+            main li {
+                font-size: 10pt;
+            }
+
+            main h1 {
+                font-size: 11pt;
+                text-transform: uppercase;
+            }
+
+            main h2 {
+                font-size: 10pt;
+                text-transform: uppercase;
+            }
+
+            #contact {
+                width: 100%;
+                text-align: center;
+            }
+
+            #contact ul {
+                text-align: center;
+                list-style-type: none;
+                margin: 0;
+                padding: 0;
+                overflow: hidden;
+            }
+
+            #contact li {
+                display: inline-block;
+                font-size: 10pt;
+            }
+
+            /* marcador entre itens (55••email••cidade) */
+            #contact li + li::before {
+                content: "•";
+                padding: 0 0.5rem;
+            }
+
+            .exp-header {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+            }
+
+            .exp-header p {
+                font-weight: bold;
+            }
+
+            table, tr {
+                width: 100%;
+            }
+
+            td {
+                width: 50%;
+            }
+
+            a {
+                text-decoration: none;
+                color: #000;
+            }
+        </style>
+    </head>
+    <body>
+        <header>
+            <h1 th:text="${resume.name}"></h1>
+            <h2 th:text="${resume.title}"></h2>
+
+            <nav id="contact">
+                <ul>
+                    <li th:text="${resume.contactInfo.phone}"></li>
+                    <li>
+                        <a th:href="'mailto:' + ${resume.contactInfo.email}" th:text="${resume.contactInfo.email}"></a>
+                    </li>
+                    <li th:text="${resume.contactInfo.currentCity}"></li>
+                    <!-- TODO: Listar redes sociais (ex.: LinkedIn) -->
+                </ul>
+            </nav>
+        </header>
+
+        <main>
+            <section id="experience">
+                <h1>Experiência</h1>
+                <hr />
+
+                <div th:each="exp : ${resume.experiences}">
+                    <div class="exp-header">
+                        <table>
+                            <tr>
+                                <th><h2 th:text="${exp.company}"></h2></th>
+                                <td style="text-align: right"><strong th:text="${exp.position}"></strong></td>
+                            </tr>
+                            <tr>
+                                <td><strong th:text="${exp.city}">Santa Maria, RS</strong></td>
+                                <td style="text-align: right"><strong th:text="${#strings.capitalize(#temporals.format(exp.startDate, 'LLL/yyyy'))} + ' - ' + ${exp.current ? 'Presente' : #strings.capitalize(#temporals.format(exp.endDate, 'LLL/yyyy'))}"></strong></td>
+                            </tr>
+                        </table>
+                    </div>
+
+                    <ul>
+                        <li th:each="activity : ${exp.activities}" th:text="${activity}"></li>
+                    </ul>
+                </div>
+            </section>
+
+            <section id="education">
+                <h1>Educação</h1>
+                <hr />
+
+                <div th:each="education : ${resume.educations}">
+                    <table>
+                        <tr>
+                            <th><h2 th:text="${education.institution}"></h2></th>
+                            <td style="text-align: right"><strong th:text="${education.course}"></strong></td>
+                        </tr>
+                        <tr>
+                            <td><strong th:text="${education.city}"></strong></td>
+                            <td style="text-align: right"><strong th:text="${#strings.capitalize(#temporals.format(education.startDate, 'LLL/yyyy'))} + ' - ' + ${education.current ? 'Presente' : #strings.capitalize(#temporals.format(education.startDate, 'LLL/yyyy'))}"></strong></td>
+                        </tr>
+                    </table>
+                </div>
+            </section>
+
+            <section id="skills">
+                <h1>Habilidades</h1>
+                <hr />
+
+                <ul>
+                    <li th:each="skill : ${resume.skills}">
+                        <strong th:text="${skill.category}"></strong>:
+                        <span th:text="${#strings.listJoin(skill.items, ', ')}"></span>
+                    </li>
+                </ul>
+            </section>
+        </main>
+    </body>
+</html>

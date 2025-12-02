@@ -41,7 +41,7 @@ public class Resume {
     private List<Education> educations;
 
     public void verifyOwner(Long userId) {
-        if (this.userId.equals(userId)) {
+        if (!this.userId.equals(userId)) {
             throw new InvalidAccessException("Acesso não autorizado a este currículo");
         }
     }

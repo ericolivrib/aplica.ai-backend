@@ -3,10 +3,14 @@ package br.com.coderico.aplicai.http.controller;
 import br.com.coderico.aplicai.dto.ApiListResponse;
 import br.com.coderico.aplicai.dto.ApiResponse;
 import br.com.coderico.aplicai.dto.ResumeCreateRequest;
+import br.com.coderico.aplicai.dto.ResumeFileResponse;
 import br.com.coderico.aplicai.entity.resume.Resume;
 import br.com.coderico.aplicai.security.UserAuthenticated;
 import br.com.coderico.aplicai.service.ResumeService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ContentDisposition;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
@@ -42,5 +46,21 @@ public class ResumeController {
         Resume resume = resumeService.getResume(resumeId, currentUser.getId());
         var response = new ApiResponse<>("Currículo solicitado", resume);
         return ResponseEntity.ok(response);
+    }
+
+    @GetMapping(path = "/{resumeId}/file", produces = MediaType.APPLICATION_PDF_VALUE)
+    public ResponseEntity<byte[]> getResumeFile(@PathVariable("resumeId") String resumeId, @AuthenticationPrincipal UserAuthenticated currentUser) {
+        ResumeFileResponse resumeFile = resumeService.getResumeFile(resumeId, currentUser.getId());
+
+        ContentDisposition contentDisposition = ContentDisposition.attachment()
+                .filename(resumeFile.filename())
+                .build();
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentDisposition(contentDisposition);
+
+        return ResponseEntity.ok()
+                .headers(headers)
+                .body(resumeFile.file());
     }
 }
