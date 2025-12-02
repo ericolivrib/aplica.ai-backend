@@ -15,6 +15,9 @@ public class Education {
     private String course;
 
     @Field
+    private String city;
+
+    @Field
     private LocalDate startDate;
 
     @Field
