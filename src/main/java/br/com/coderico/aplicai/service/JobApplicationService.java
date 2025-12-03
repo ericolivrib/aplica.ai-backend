@@ -25,11 +25,7 @@ public class JobApplicationService {
     public JobApplicationCreatedResponse createJobApplication(JobApplicationCreateRequest request, Long userId) {
         User user = userService.getUser(userId);
 
-        JobApplication application = new JobApplication();
-        application.setUser(user);
-        application.setCompany(request.company());
-        application.setPosition(request.position());
-        application.setUrl(request.url());
+        JobApplication application = mapper.toJobApplication(request, user);
 
         repository.save(application);
         return mapper.toJobApplicationCreatedResponse(application);
