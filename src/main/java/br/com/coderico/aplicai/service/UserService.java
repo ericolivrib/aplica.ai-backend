@@ -34,6 +34,13 @@ public class UserService {
         return mapper.toUserCreatedResponse(user);
     }
 
+    public UserCreatedResponse getUser(String email) {
+        User user = repository.findByEmail(email)
+                .orElseThrow(() -> new EntityNotFoundException("Usuário não encontrado com o e-mail especificado"));
+
+        return mapper.toUserCreatedResponse(user);
+    }
+
     private void verifyExistentUser(String email) {
         boolean userExists = repository.existsByEmail(email);
 
