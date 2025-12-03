@@ -11,7 +11,6 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
-import java.net.URISyntaxException;
 import java.util.List;
 
 @RequiredArgsConstructor
@@ -45,6 +44,7 @@ public class JobApplicationController {
     }
 
     @GetMapping("/{applicationId}")
+    @ResponseStatus(HttpStatus.OK)
     public ResponseEntity<ApiResponse<JobApplicationResponse>> getJobApplication(@PathVariable Long applicationId, @AuthenticationPrincipal UserAuthenticated currentUser) {
         JobApplicationResponse application = service.getJobApplication(currentUser.getId(), applicationId);
 
@@ -53,6 +53,7 @@ public class JobApplicationController {
     }
 
     @PutMapping("/{applicationId}")
+    @ResponseStatus(HttpStatus.OK)
     public ResponseEntity<ApiResponse<JobApplicationResponse>> updateJobApplication(@PathVariable Long applicationId,
                                                                                     @Valid @RequestBody JobApplicationCreateRequest request,
                                                                                     @AuthenticationPrincipal UserAuthenticated currentUser) {

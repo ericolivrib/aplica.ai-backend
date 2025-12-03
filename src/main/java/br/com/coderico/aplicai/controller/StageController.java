@@ -7,6 +7,7 @@ import br.com.coderico.aplicai.dto.StageResponse;
 import br.com.coderico.aplicai.security.UserAuthenticated;
 import br.com.coderico.aplicai.service.StageService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
@@ -22,6 +23,7 @@ public class StageController {
     private final StageService stageService;
 
     @GetMapping
+    @ResponseStatus(HttpStatus.OK)
     public ResponseEntity<ApiListResponse<StageResponse>> getApplicationStages(@PathVariable Long applicationId, @AuthenticationPrincipal UserAuthenticated currentUser) {
         List<StageResponse> stages = stageService.getApplicationStages(applicationId, currentUser.getId());
         var response = new ApiListResponse<>("Etapas da candidatura", stages);
@@ -29,6 +31,7 @@ public class StageController {
     }
 
     @PostMapping
+    @ResponseStatus(HttpStatus.CREATED)
     public ResponseEntity<ApiResponse<StageResponse>> createStage(@PathVariable Long applicationId,
                                                                   @AuthenticationPrincipal UserAuthenticated currentUser,
                                                                   @RequestBody StageCreateRequest request) {
