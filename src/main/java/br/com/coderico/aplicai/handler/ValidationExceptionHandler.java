@@ -1,4 +1,4 @@
-package br.com.coderico.aplicai.http.handler;
+package br.com.coderico.aplicai.handler;
 
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.http.HttpStatus;

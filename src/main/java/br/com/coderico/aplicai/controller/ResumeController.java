@@ -1,4 +1,4 @@
-package br.com.coderico.aplicai.http.controller;
+package br.com.coderico.aplicai.controller;
 
 import br.com.coderico.aplicai.dto.ApiListResponse;
 import br.com.coderico.aplicai.dto.ApiResponse;
