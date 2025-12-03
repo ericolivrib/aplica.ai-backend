@@ -36,14 +36,18 @@ public class StageService {
         JobApplication application = applicationService.getJobApplication(applicationId);
         application.verifyOwner(userid);
 
-        boolean existsByName = repository.existsByTitleAndApplicationId(stageCreateRequest.title(),  applicationId);
-
-        if (existsByName) {
-            throw new EntityAlreadyExistsException("Já existe uma etapa com o mesmo titulo para esta candidatura");
-        }
+        verifyExistentStage(stageCreateRequest.title(), applicationId);
 
         Stage stage = mapper.fromStageCreateRequest(stageCreateRequest, application);
         repository.save(stage);
         return mapper.toStageResponse(stage);
+    }
+
+    private void verifyExistentStage(String title, Long applicationId) {
+        boolean existsByName = repository.existsByTitleAndApplicationId(title,  applicationId);
+
+        if (existsByName) {
+            throw new EntityAlreadyExistsException("Já existe uma etapa com o mesmo titulo para esta candidatura");
+        }
     }
 }
