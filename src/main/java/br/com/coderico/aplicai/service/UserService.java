@@ -26,15 +26,19 @@ public class UserService {
     }
 
     public UserCreatedResponse createUser(UserCreateRequest request) {
-        boolean userExists = repository.existsByEmail(request.email());
-
-        if (userExists) {
-            throw new EntityAlreadyExistsException("O email informado já está vinculado a outro usuário");
-        }
+        verifyExistentUser(request.email());
 
         User user = mapper.fromUserCreateRequest(request, encoder);
 
         repository.save(user);
         return mapper.toUserCreatedResponse(user);
+    }
+
+    private void verifyExistentUser(String email) {
+        boolean userExists = repository.existsByEmail(email);
+
+        if (userExists) {
+            throw new EntityAlreadyExistsException("O email informado já está vinculado a outro usuário");
+        }
     }
 }
